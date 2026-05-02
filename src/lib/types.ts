@@ -18,6 +18,8 @@ export interface GeneratedImage {
 export interface GenerationJob {
   jobId: string;
   nickname: string;
+  /** 선택한 스타일 (photoreal | cartoon | emoticon) */
+  styleId: string;
   /** 워터마크 미리보기 12장 */
   images: GeneratedImage[];
   /** 결제 완료 여부 */

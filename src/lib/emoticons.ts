@@ -1,19 +1,19 @@
 // ============================================
 // 12개 이모티콘 프리셋 정의
 // ============================================
-// 각 프리셋은 AI 이미지 생성 시 사용되는 프롬프트와
-// UI에서 표시되는 한글 텍스트를 담고 있다.
-// 새 이모티콘을 추가하려면 EMOTICONS 배열에 객체를 더하면 된다.
+// 각 프리셋은 표정/포즈/장식을 영문으로 기술한다.
+// 한글 텍스트는 AI에 맡기지 않고(오타 발생) 서버에서 후처리로 합성한다.
+// 스타일(실사/카툰/이모티콘)은 lib/styles.ts 에서 별도 적용된다.
 
 export interface EmoticonPreset {
   /** 고유 ID (파일명, ZIP 내 이름에도 사용됨) */
   id: string;
-  /** 이모티콘에 표시되는 한글 텍스트 */
+  /** 이모티콘에 합성될 한글 텍스트 */
   label: string;
-  /** AI 이미지 생성용 영문 프롬프트 (얼굴 일관성 유지를 전제로 함) */
-  prompt: string;
-  /** 이모지 (mock 미리보기 + UI 데코용) */
+  /** 이모지 (UI 데코용) */
   emoji: string;
+  /** 표정/포즈/장식만 기술하는 영문 (스타일/얼굴 일관성은 별도 적용) */
+  prompt: string;
 }
 
 export const EMOTICONS: EmoticonPreset[] = [
@@ -21,86 +21,75 @@ export const EMOTICONS: EmoticonPreset[] = [
     id: 'hello',
     label: '안녕!',
     emoji: '👋',
-    prompt:
-      'smiling person waving one hand, friendly greeting pose, Korean kakao sticker style, white background, thick white outline, cute handwritten Korean text "안녕!"',
+    prompt: 'smiling and waving one hand in friendly greeting, eyes looking forward',
   },
   {
     id: 'best',
     label: '최고야!',
     emoji: '👍',
-    prompt:
-      'smiling person giving a thumbs up, sparkles around, cute kakao sticker style, white background, thick white outline, handwritten Korean text "최고야!"',
+    prompt: 'bright smile, giving a thumbs up gesture, sparkles around',
   },
   {
     id: 'love',
     label: '사랑해',
     emoji: '💖',
-    prompt:
-      'smiling person making a heart with both hands, hearts floating around, kakao sticker style, white background, thick white outline, handwritten Korean text "사랑해"',
+    prompt: 'making a heart shape with both hands above chest, soft smile, hearts floating around',
   },
   {
     id: 'fighting',
     label: '화이팅!',
     emoji: '✊',
-    prompt:
-      'energetic person raising fist into the air, motivated expression, kakao sticker style, white background, thick white outline, handwritten Korean text "화이팅!"',
+    prompt: 'raising one fist up energetically, motivated determined expression, only upper body visible',
   },
   {
     id: 'wellDone',
     label: '잘했어!',
     emoji: '👏',
-    prompt:
-      'person clapping hands with bright smile, sparkles, kakao sticker style, white background, thick white outline, handwritten Korean text "잘했어!"',
+    prompt: 'clapping hands together near the chest, happy smile, sparkles around',
   },
   {
     id: 'hmm',
     label: '음...',
     emoji: '🤔',
-    prompt:
-      'thinking face with finger on chin, question marks floating, kakao sticker style, white background, thick white outline, handwritten Korean text "음..."',
+    prompt: 'thinking pose with index finger on chin, slightly squinted eyes looking up, question marks floating',
   },
   {
     id: 'omg',
     label: '어머!',
     emoji: '😲',
-    prompt:
-      'surprised face with both hands on cheeks, wide eyes, kakao sticker style, white background, thick white outline, handwritten Korean text "어머!"',
+    prompt: 'wide-eyed surprised expression, mouth slightly open, both hands placed on cheeks',
   },
   {
     id: 'sleepy',
     label: '졸려요...',
     emoji: '😪',
-    prompt:
-      'sleepy face rubbing eyes, small Zzz floating, kakao sticker style, white background, thick white outline, handwritten Korean text "졸려요..."',
+    prompt: 'sleepy half-closed eyes, one hand rubbing the eye, small "Z" symbols floating',
   },
   {
     id: 'yummy',
     label: '냠냠~',
     emoji: '🍴',
-    prompt:
-      'person happily eating with spoon, music notes, kakao sticker style, white background, thick white outline, handwritten Korean text "냠냠~"',
+    prompt: 'happily eating with a spoon, eyes closed in delight, music notes floating around',
   },
   {
     id: 'cute',
     label: '뽀잉~',
     emoji: '💕',
-    prompt:
-      'cute aegyo cheek pose, finger on cheek, hearts floating, kakao sticker style, white background, thick white outline, handwritten Korean text "뽀잉~"',
+    prompt: 'cute aegyo pose with index finger pressed against the cheek, small smile, hearts floating',
   },
   {
     id: 'thanks',
     label: '감사합니다!',
     emoji: '🙇',
-    prompt:
-      'polite bowing pose with hands together, hearts floating, kakao sticker style, white background, thick white outline, handwritten Korean text "감사합니다!"',
+    prompt: 'polite bowing pose with both hands clasped together in front of chest, eyes gently closed',
   },
   {
     id: 'good',
     label: '좋아요!',
     emoji: '😉',
-    prompt:
-      'winking face making finger heart, sparkles, kakao sticker style, white background, thick white outline, handwritten Korean text "좋아요!"',
+    prompt: 'winking one eye, making a small finger heart with thumb and index finger near the cheek, sparkles',
   },
 ];
 
 export const EMOTICON_COUNT = EMOTICONS.length; // 12
+
