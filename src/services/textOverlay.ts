@@ -24,11 +24,13 @@ export async function overlayKoreanText(
   const w = meta.width ?? 1024;
   const h = meta.height ?? 1024;
 
-  // 라벨 길이에 따라 폰트 크기 조절
+  // 라벨 길이에 따라 폰트 크기 조절 (360 기준으로 보기 좋게)
   const charCount = [...label].length;
-  const fontSize = Math.round(w * (charCount <= 4 ? 0.13 : charCount <= 6 ? 0.1 : 0.085));
+  const fontSize = Math.round(w * (charCount <= 4 ? 0.16 : charCount <= 6 ? 0.13 : 0.11));
   const x = Math.round(w * 0.5);
-  const y = Math.round(h * 0.16);
+  const y = Math.round(h * 0.18);
+  // 작은 이미지에서도 외곽선이 또렷하도록 stroke 비율 강화
+  const strokeWidth = Math.max(2, Math.round(fontSize * 0.22));
 
   // SVG 텍스트: 두꺼운 흰 stroke (외곽선) + 진한 본체
   // text-anchor=middle 로 중앙 정렬, font-family 는 시스템 폰트 fallback
@@ -44,7 +46,7 @@ export async function overlayKoreanText(
       </style>
       <text class="lbl" x="${x}" y="${y}"
             text-anchor="middle"
-            stroke="white" stroke-width="${Math.round(fontSize * 0.18)}"
+            stroke="white" stroke-width="${strokeWidth}"
             stroke-linejoin="round" stroke-linecap="round"
             paint-order="stroke fill"
             fill="#FF4B75">${escapeXml(label)}</text>

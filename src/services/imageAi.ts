@@ -15,6 +15,7 @@ import { EMOTICONS, EmoticonPreset } from '@/lib/emoticons';
 import { GeneratedImage } from '@/lib/types';
 import { getStyle, StyleId, DEFAULT_STYLE } from '@/lib/styles';
 import { overlayKoreanText } from './textOverlay';
+import { makeStickerPng } from './postprocess';
 
 export interface GenerateInput {
   /** 사용자가 업로드한 얼굴 사진 (data URL, base64 형식) */
@@ -132,18 +133,21 @@ async function generateWithGemini(input: GenerateInput): Promise<GeneratedImage[
         return buildMockImage(preset, input.faceImageDataUrl);
       }
 
-      // 한글 텍스트 합성 (AI 출력에 정확한 라벨을 얹음)
-      let composedB64 = b64Raw;
-      let composedMime = mimeRaw;
+      // 후처리 파이프라인:
+      //   1) AI 결과(1024 흰배경) → 360x360 + 투명 배경 (카톡 이모티콘 표준 규격)
+      //   2) 360 위에 한글 라벨 정확히 합성
+      let finalB64 = b64Raw;
+      let finalMime = mimeRaw;
       try {
-        const out = await overlayKoreanText(b64Raw, mimeRaw, preset.label);
-        composedB64 = out.data;
-        composedMime = out.mime;
+        const sticker = await makeStickerPng(b64Raw, mimeRaw);
+        const labeled = await overlayKoreanText(sticker.data, sticker.mime, preset.label);
+        finalB64 = labeled.data;
+        finalMime = labeled.mime;
       } catch (e) {
-        console.error(`[imageAi] textOverlay failed for ${preset.id}:`, e);
+        console.error(`[imageAi] postprocess failed for ${preset.id}:`, e);
       }
 
-      const url = `data:${composedMime};base64,${composedB64}`;
+      const url = `data:${finalMime};base64,${finalB64}`;
       return {
         id: preset.id,
         label: preset.label,
