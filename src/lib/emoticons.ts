@@ -16,6 +16,11 @@ export interface EmoticonPreset {
   prompt: string;
 }
 
+/** 메인 페이지에서 보여주는 샘플 이미지 경로 (1~12 순서 고정) */
+export function getSamplePath(index1to12: number): string {
+  return `/samples/${String(index1to12).padStart(2, '0')}_${EMOTICONS[index1to12 - 1].id}.png`;
+}
+
 export const EMOTICONS: EmoticonPreset[] = [
   {
     id: 'hello',
