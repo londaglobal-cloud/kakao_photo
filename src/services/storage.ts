@@ -11,7 +11,13 @@
 
 import type { GenerationJob } from '@/lib/types';
 
-const jobs = new Map<string, GenerationJob>();
+// Next.js dev 모드에서 라우트별 모듈 인스턴스가 분리되는 것을 막기 위해
+// globalThis 에 Map 을 한 번만 만들어 공유한다.
+const globalForJobs = globalThis as unknown as {
+  __jobs?: Map<string, GenerationJob>;
+};
+const jobs = globalForJobs.__jobs ?? new Map<string, GenerationJob>();
+if (!globalForJobs.__jobs) globalForJobs.__jobs = jobs;
 
 export function saveJob(job: GenerationJob): void {
   jobs.set(job.jobId, job);
