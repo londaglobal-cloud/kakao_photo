@@ -10,13 +10,15 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { STYLES, DEFAULT_STYLE, type StyleId } from '@/lib/styles';
+import { DEFAULT_STYLE } from '@/lib/styles';
+
+// 현재는 실사(photoreal) 한 가지만 사용. 추후 스타일 선택 UI 복원 가능.
+const STYLE_ID = DEFAULT_STYLE;
 
 export default function UploadPage() {
   const router = useRouter();
   const [file, setFile] = useState<string | null>(null);
   const [nickname, setNickname] = useState('');
-  const [styleId, setStyleId] = useState<StyleId>(DEFAULT_STYLE);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -42,7 +44,7 @@ export default function UploadPage() {
         body: JSON.stringify({
           faceImageDataUrl: file,
           nickname,
-          styleId,
+          styleId: STYLE_ID,
         }),
       });
       const data = await res.json();
@@ -88,29 +90,14 @@ export default function UploadPage() {
         />
       </label>
 
-      {/* 스타일 선택 */}
-      <div className="mt-6">
-        <label className="text-sm text-gray-700 font-bold">그림체 선택</label>
-        <div className="mt-2 grid grid-cols-3 gap-2">
-          {STYLES.map((s) => {
-            const selected = s.id === styleId;
-            return (
-              <button
-                key={s.id}
-                onClick={() => setStyleId(s.id)}
-                className={`rounded-2xl py-3 px-2 text-center transition border-2
-                  ${selected
-                    ? 'bg-primary border-yellow-500 shadow-sticker'
-                    : 'bg-white border-gray-200'}`}
-              >
-                <div className="text-2xl">{s.emoji}</div>
-                <div className="font-bold text-sm mt-1">{s.label}</div>
-                <div className="text-[10px] text-gray-500 leading-tight mt-0.5">
-                  {s.description}
-                </div>
-              </button>
-            );
-          })}
+      {/* 그림체 안내 (실사 고정) */}
+      <div className="mt-5 bg-white rounded-2xl p-4 border-2 border-primary/40">
+        <div className="flex items-center gap-2">
+          <span className="text-2xl">📷</span>
+          <div>
+            <p className="font-bold text-sm">실사 스티커</p>
+            <p className="text-xs text-gray-500">진짜 내 사진처럼 자연스러운 느낌</p>
+          </div>
         </div>
       </div>
 

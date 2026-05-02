@@ -24,7 +24,12 @@ export const STYLES: StylePreset[] = [
     styleClause:
       'PHOTOREALISTIC photo, real photography, DSLR portrait quality, ' +
       'NOT cartoon, NOT illustration, NOT anime, NOT painting. ' +
-      'Same person\'s real face from the input photo, head and shoulders only.',
+      'Same person\'s real face from the input photo, head and shoulders only. ' +
+      // 정체성 락 강화: 입력에 없는 액세서리/특징을 임의로 추가하지 않음
+      'CRITICAL: do NOT add accessories that are not present in the input photo. ' +
+      'If the person does not wear glasses in the input, do NOT add glasses. ' +
+      'Do not add hats, earrings, makeup style, hair color, or clothing changes ' +
+      'that differ from the input photo. Keep the same hairstyle and clothing.',
   },
   {
     id: 'cartoon',

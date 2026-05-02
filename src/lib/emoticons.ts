@@ -69,7 +69,9 @@ export const EMOTICONS: EmoticonPreset[] = [
     id: 'yummy',
     label: '냠냠~',
     emoji: '🍴',
-    prompt: 'happily eating with a spoon, eyes closed in delight, music notes floating around',
+    prompt:
+      'happily eating with a spoon containing white rice or normal-colored food ' +
+      '(no purple/blue food), eyes closed in delight, music notes floating around',
   },
   {
     id: 'cute',
